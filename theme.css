@@ -1,0 +1,30 @@
+/*
+ * Default Math Fix
+ *
+ * This theme intentionally contains nothing except the fix below.
+ * Any variable or rule a theme doesn't define falls back to Obsidian's
+ * built-in default theme, so everything else stays exactly as default.
+ */
+
+/*
+ * Obsidian always renders Mermaid diagrams with Mermaid's light theme and,
+ * in dark mode, inverts the whole SVG with a CSS filter. Mermaid's $$...$$
+ * math is HTML inside a <foreignObject> with no color of its own, so it
+ * inherits Obsidian's light dark-mode text color, which the filter then
+ * inverts to near-black. Give it Mermaid's light-theme text color (#333)
+ * instead, so after inversion it matches the other diagram labels.
+ * Not !important, so labels that Mermaid colors explicitly are untouched.
+ */
+.theme-dark .mermaid > svg foreignObject {
+  color: #333;
+}
+
+/*
+ * Mermaid places math message labels with their bottom edge exactly on the
+ * arrow (normal text sits ~10px above it) and reserves no extra space above,
+ * so nudge them up a little. Message labels are the <foreignObject>s that sit
+ * next to the message lines; notes, loops and actors live in their own groups.
+ */
+.mermaid :has(> .messageLine0, > .messageLine1) > foreignObject {
+  transform: translateY(-6px);
+}
